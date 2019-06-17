@@ -1,7 +1,7 @@
 {
   "name": "online_bookstore",
   "version": "1.0.0",
-  "description": "A Vue.js project that implements the frontend of a online bookstore for the team project of Zhejiang University Course Software Engineering (19 Spring)",
+  "description": "A Vue.js project",
   "author": "Jessie Peng <jessie_p@yeah.net>",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
