@@ -6,7 +6,7 @@ This is the course project of Software Engineering in Zhejiang University.
 
 - [Jessie Peng](https://github.com/jessiepyx) (frontend)
 - [ccty123](https://github.com/ccty123) (server-database)
-- (server-controller)
+- [SummerOfMe](https://github.com/SummerOfMe) (server-controller)
 
 ## Frontend
 
@@ -27,6 +27,6 @@ Contributed by ccty123
 
 ## Server-controller
 
-Contributed by
+Contributed by SummerOfMe
 
 
