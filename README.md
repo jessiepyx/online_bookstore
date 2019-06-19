@@ -4,16 +4,16 @@ This is the course project of Software Engineering in Zhejiang University.
 
 ## Collaborators
 
-- Jessie Peng (frontend)
-- (server-database)
+- [Jessie Peng](https://github.com/jessiepyx) (frontend)
+- [ccty123](https://github.com/ccty123) (server-database)
 - (server-controller)
 
 ## Frontend
 
 Contributed by Jessie.
 
-[x] mainpage UI
-[ ] connect with database
+- [x] mainpage UI
+- [ ] connect with database
 
 ### Environment
 
@@ -23,7 +23,7 @@ Contributed by Jessie.
 
 ## Server-database
 
-Contributed by
+Contributed by ccty123
 
 ## Server-controller
 
