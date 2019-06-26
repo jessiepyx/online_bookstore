@@ -13,7 +13,10 @@ This is the course project of Software Engineering in Zhejiang University.
 Contributed by Jessie.
 
 - [x] mainpage UI
-- [ ] connect with database
+- [x] login request
+- [x] router interception
+- [ ] signin request
+- [ ] get book info request
 
 ### Environment
 

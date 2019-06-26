@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Cart from '@/components/Cart'
-import Profile from '@/components/Profile'
+import Home from '../components/Home'
+import Cart from '../components/Cart'
+import Profile from '../components/Profile'
+import History from '../components/History'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: Profile
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: History
     }
   ]
 })
