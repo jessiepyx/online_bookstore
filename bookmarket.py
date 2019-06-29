@@ -113,7 +113,7 @@ class BookMarket(object):
         return True
 
     def get_book_data(self):
-        '''这是一个查询数据库操作'''
+        '''这是一个遍历书籍操作'''
         print('show products')
         try:
             sql = '''select * from book'''
@@ -132,7 +132,7 @@ class BookMarket(object):
             print(e)
             
     def select_book_data(self,data_info):
-        '''这是一个查询数据库操作'''
+        '''这是一个查询书籍操作'''
         print('show products')
         try:
             s = data_info.split('&')
@@ -155,7 +155,7 @@ class BookMarket(object):
             print(e)
     
     def add_book_data(self,book_info):
-        '''这是一个添加数据库操作'''
+        '''这是一个添加书籍操作'''
         print('add products')
         try:
             split_info = book_info.split('&')
@@ -181,7 +181,7 @@ class BookMarket(object):
         return True
 
     def add_online_order(self,order_info):
-        '''这是一个添加数据库操作'''
+        '''这是一个添加订单操作'''
         print('add order')
         try:
             split_info = order_info.split('&')
@@ -209,7 +209,7 @@ class BookMarket(object):
         return True
 
     def update_online_order(self,order_state,order_id):
-        '''这是一个查询数据库操作'''
+        '''这是一个更新订单状态操作'''
         print('show products')
         try:
             sql = '''update online_order set state = %s where id = %s'''
@@ -221,7 +221,7 @@ class BookMarket(object):
         return True
 
     def get_online_order(self,order_info):
-        '''这是一个查询数据库操作'''
+        '''这是一个遍历个人订单操作'''
         print('show products')
         try:
             sql = '''select * from book where bookaccept=%s'''
