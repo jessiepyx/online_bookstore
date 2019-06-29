@@ -4,7 +4,7 @@ import SocketServer
 import cgi
 import shutil
 import json
-from bookmartket import BookMarket
+from bookmarket import BookMarket
 def userReg(info):
     username=info.getvalue('username')
     password=info.getvalue('password')
@@ -47,17 +47,45 @@ def bookSearch(info):
         bookdir={}
         for book in allbook:
             bookinfo=book.split('&')
-            bookdir.update({i:{'bookname':bookinfo[1],'sellor':bookinfo[2],'beforeprice':bookinfo[3],'nowprice':bookinfo[4],'category':bookinfo[5],'introduction':bookinfo[6],'store':bookinfo[7]}})
+            bookdir.update({i:{'id':bookinfo[0][3:],'bookname':bookinfo[1][5:],'sellor':bookinfo[2][7:],'beforeprice':bookinfo[3][12:],'nowprice':bookinfo[4][9:],'category':bookinfo[5][9:],'introduction':bookinfo[6][13:],'store':bookinfo[7][6:]}})
             i=i+1
         bsreturn={'success':'true','maindata':bookdir}
     else:
         bsreturn={'success':'false','maindata':''}
     
     return json.dumps(bsreturn,ensure_ascii=False)
+
+def bookAdd(self,info):
+    orderid=info.getvalue("id")
+    orderbook=info.getvalue("name")
+    ordersel=info.getvalue("sell")
+    orderbp=info.getvalue("beforeprice")
+    ordernp=info.getvalue("nowprice")
+    ordercate=info.getvalue("category")
+    orderintr=info.getvalue("introduction")
+    ordersto=info.getvalue("store")
+    bookinf='id='+orderid+'&name='+orderbook+'&seil='+ordersel+'&beforeprice='+orderbp+'&nowprice='+ordernp+'&category='+ordercate+'&introduction='+orderintr+'&store='+ordersto
+    boaddinfo=bk.add_book_data(bookinf)
+    
+    if boaddinfo==True:
+        boaddreturn={'success':'true','maindata':''}
+    else:
+        boaddreturn={'success':'false','maindata':'dataformerror'}
+        
+    return json.dumps(boaddreturn)
             
 def orderAdd(self,info):
-    #info处需修改
-    oraddinfo=bk.add_online_order(info)
+    orderid=info.getvalue("id")
+    orderbook=info.getvalue("bookname")
+    ordersel=info.getvalue("sell")
+    orderseltel=info.getvalue("selltel")
+    orderbuy=info.getvalue("buy")
+    orderbuytel=info.getvalue("buytel")
+    ordernum=info.getvalue("num")
+    orderpri=info.getvalue("price")
+    orderdes=info.getvalue("destination")
+    orderinfo='id='+orderid+'&bookname='+orderbook+'&seil='+ordersel+'&seiltel='+orderseltel+'&buy='+orderbuy+'&buytel='+orderbuytel+'&num='+ordernum+'&price='+orderpri+'&destination='+orderdes
+    oraddinfo=bk.add_online_order(orderinf)
     if oraddinfo==False:
         oraddreturn={'success':'false','maindata':'dataformerror'}
     else:
@@ -74,7 +102,7 @@ def orderSearch(self,info):
         bookdir={}
         for book in allbook:
             bookinfo=book.split('&')
-            bookdir.update({i:{'bookname':bookinfo[1],'bookmaster':bookinfo[2],'bookaccept':bookinfo[3],'num':bookinfo[4],'price':bookinfo[5],'destination':bookinfo[6],'mastertel':bookinfo[7],'accepttel':bookinfo[8]}})
+            bookdir.update({i:{'id':bookinfo[0][3:],'bookname':bookinfo[1][5:],'bookmaster':bookinfo[2][11:],'bookaccept':bookinfo[3][11:],'num':bookinfo[4][4:],'price':bookinfo[5][6:],'destination':bookinfo[6][11:],'mastertel':bookinfo[7][10:],'accepttel':bookinfo[8][10:],'state':bookinfo[9][6:]}})
             i=i+1
         bsreturn={'success':'true','maindata':bookdir}
     else:
@@ -82,7 +110,16 @@ def orderSearch(self,info):
     
     return json.dumps(bsreturn,ensure_ascii=False)
         
-    return json.dumps(oraddreturn)
+
+def orderUpdate(self,info):
+    orderid=info.getvalue('id')
+    orderstate=info.getvalue('state')
+    orupinfo=bk.update_online_order(orderstate,orderid)
+    if orupinfo==False:
+        orupreturn={'success':'false','maindata':'exceptionoccurs'}
+    else:
+        orupreturn={'success':'true','maindata':''}
+    return json.dumps(orupreturn)
 
 class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler): 
     def do_GET(self): 
@@ -102,6 +139,16 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             sendata=userLogin(args)
         elif operation=='register':
             sendata=userReg(args)
+        elif operation=='addorder':
+            sendata=orderAdd(args)
+        elif operation=='addbook':
+            sendata=bookAdd(args)
+        elif operation=='searchorder':
+            sendata=orderSearch(args)
+        elif operation=='searchbook':
+            sendata=bookSearch(args)
+        elif operation=='updateoder':
+            sendata=orderUpdate(args)
         dh = dataHandler()
         result = dh.run(path, sendata)
         self.outputtxt(result)
@@ -121,5 +168,5 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         #self.wfile.write(content)            
  
 bk = BookMarket()           
-httpd = SocketServer.TCPServer(("127.0.0.1", 3306), ServerHandler) 
+httpd = SocketServer.TCPServer(("127.0.0.1", 8080), ServerHandler) 
 httpd.serve_forever() 
