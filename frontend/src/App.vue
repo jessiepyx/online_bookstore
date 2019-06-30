@@ -5,7 +5,7 @@
       <span id="button">
         <el-button-group>
           <el-button plain type="primary" size="medium" @click="loginForm.visible = true">登录</el-button>
-          <el-button plain type="primary" size="medium">注册</el-button>
+          <el-button plain type="primary" size="medium" @click="registerForm.visible = true">注册</el-button>
       </el-button-group>
       </span>
     </div>
@@ -39,7 +39,36 @@
       </el-dialog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="loginForm.visible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit">确 定</el-button>
+        <el-button type="primary" @click="onLogin">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="注册" :visible.sync="registerForm.visible">
+      <el-form>
+        <el-form-item label="用户名" :label-width="registerForm.labelWidth">
+          <el-input v-model="registerForm.username" placeholder="请输入用户名" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="密码" :label-width="registerForm.labelWidth">
+          <el-input v-model="registerForm.password" placeholder="请输入密码" clearable show-password></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" :label-width="registerForm.labelWidth">
+          <el-input v-model="registerForm.password" placeholder="请再次输入密码" clearable show-password></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="registerForm.labelWidth">
+          <el-input v-model="registerForm.password" placeholder="请输入email地址" clearable show-password></el-input>
+        </el-form-item>
+        <el-form-item label="电话" :label-width="registerForm.labelWidth">
+          <el-input v-model="registerForm.password" placeholder="请输入手机号码" clearable show-password></el-input>
+        </el-form-item>
+      </el-form>
+      <el-dialog width="30%" title="注册成功" :visible.sync="registerForm.successVisible" append-to-body>
+        <el-button type="primary" @click="registerForm.successVisible = false; registerForm.visible = false">确 定</el-button>
+      </el-dialog>
+      <el-dialog width="30%" title="注册失败" :visible.sync="registerForm.failVisible" append-to-body>
+        <el-button type="primary" @click="registerForm.failVisible = false">确 定</el-button>
+      </el-dialog>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="registerForm.visible = false">取 消</el-button>
+        <el-button type="primary" @click="onRegister">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -60,7 +89,17 @@ export default {
         successVisible: false,
         failVisible: false
       },
-      test: false
+      registerForm: {
+        visible: false,
+        username: '',
+        password: '',
+        repeatPassword: '',
+        email: '',
+        telephone: '',
+        labelWidth: '120px',
+        successVisible: false,
+        failVisible: false
+      }
     }
   },
   components: {
@@ -72,7 +111,7 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    onLogin () {
       this.$axios.post('/server', {
         operation: 'login',
         username: this.loginForm.username,
@@ -81,7 +120,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             if (response.data.success === true) {
-              this.$store.commit('setCurrentUser', response.data.maindata)
+              this.$store.commit('setCurrentUser', response.data.maindata.username)
               this.$store.commit('setToken', true)
               console.log(this.$store.state.currentUser)
             } else {
@@ -92,6 +131,29 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    onRegister () {
+      this.$axios.post('/server', {
+        operation: 'register',
+        username: this.registerForm.username,
+        password: this.registerForm.password,
+        repeatPassword: this.repeatPassword,
+        email: this.email,
+        telephone: this.telephone
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            if (response.data.success !== true) {
+              alert(response.data.maindata)
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    created () {
+      this.$store.commit('logout')
     }
   }
 }
