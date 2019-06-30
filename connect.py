@@ -9,7 +9,9 @@ def userReg(info):
     username=info.getvalue('username')
     password=info.getvalue('password')
     email=info.getvalue('email')
-    reginfo=bk.createUser('username='+username+'&password='+password+'&email='+email)
+    name=info.getvalue('name')
+    telphone=info.getvalue('telphone')
+    reginfo=bk.createUser('username='+username+'&password='+password+'&email='+email+'&name='+name+'&telphone='+telphone)
     if reginfo==0:
         regreturn={'success':'true','maindata':{'username':username,'password':password}}
     elif reginfo==1:
@@ -56,15 +58,16 @@ def bookSearch(info):
     return json.dumps(bsreturn,ensure_ascii=False)
 
 def bookAdd(self,info):
-    orderid=info.getvalue("id")
-    orderbook=info.getvalue("name")
-    ordersel=info.getvalue("sell")
-    orderbp=info.getvalue("beforeprice")
-    ordernp=info.getvalue("nowprice")
-    ordercate=info.getvalue("category")
-    orderintr=info.getvalue("introduction")
-    ordersto=info.getvalue("store")
-    bookinf='id='+orderid+'&name='+orderbook+'&seil='+ordersel+'&beforeprice='+orderbp+'&nowprice='+ordernp+'&category='+ordercate+'&introduction='+orderintr+'&store='+ordersto
+    bookid=info.getvalue("id")
+    bookname=info.getvalue("name")
+    booksel=info.getvalue("sell")
+    bookbp=info.getvalue("beforeprice")
+    booknp=info.getvalue("nowprice")
+    bookcate=info.getvalue("category")
+    bookintr=info.getvalue("introduction")
+    booksto=info.getvalue("store")
+    bookima=info.getvalue("images")
+    bookinf='id='+bookid+'&name='+bookname+'&seil='+booksel+'&beforeprice='+bookbp+'&nowprice='+booknp+'&category='+bookcate+'&storm='+booksto+'&images='+bookima+'&introduction='+bookintr
     boaddinfo=bk.add_book_data(bookinf)
     
     if boaddinfo==True:
@@ -84,7 +87,8 @@ def orderAdd(self,info):
     ordernum=info.getvalue("num")
     orderpri=info.getvalue("price")
     orderdes=info.getvalue("destination")
-    orderinfo='id='+orderid+'&bookname='+orderbook+'&seil='+ordersel+'&seiltel='+orderseltel+'&buy='+orderbuy+'&buytel='+orderbuytel+'&num='+ordernum+'&price='+orderpri+'&destination='+orderdes
+    ordersta=info.getvalue("state")
+    orderinfo='id='+orderid+'&bookname='+orderbook+'&seil='+ordersel+'&seiltel='+orderseltel+'&buy='+orderbuy+'&buytel='+orderbuytel+'&num='+ordernum+'&price='+orderpri+'&destination='+orderdes+'&state='+ordersta
     oraddinfo=bk.add_online_order(orderinf)
     if oraddinfo==False:
         oraddreturn={'success':'false','maindata':'dataformerror'}
@@ -95,16 +99,16 @@ def orderAdd(self,info):
 
 def orderSearch(self,info):
     bookaccept=info.getvalue('bookaccept')
-    bsinfo=bk.get_book_data(bookaccept)
+    bsinfo=bk.get_online_order(bookaccept)
     if bainfo:
         allaccept=bsinfo.split('|')
         i=1
-        bookdir={}
-        for book in allbook:
-            bookinfo=book.split('&')
-            bookdir.update({i:{'id':bookinfo[0][3:],'bookname':bookinfo[1][5:],'bookmaster':bookinfo[2][11:],'bookaccept':bookinfo[3][11:],'num':bookinfo[4][4:],'price':bookinfo[5][6:],'destination':bookinfo[6][11:],'mastertel':bookinfo[7][10:],'accepttel':bookinfo[8][10:],'state':bookinfo[9][6:]}})
+        orderdir={}
+        for order in allaccept:
+            orderinfo=order.split('&')
+            orderdir.update({i:{'id':orderinfo[0][3:],'bookname':orderinfo[1][9:],'sell':orderinfo[2][5:],'selltel':orderinfo[3][8:],'buy':orderinfo[4][4:],'buytel':orderinfo[5][7:],'num':bookinfo[6][4:],'price':bookinfo[7][6:],'destination':bookinfo[8][11:],'state':bookinfo[9][6:]}})
             i=i+1
-        bsreturn={'success':'true','maindata':bookdir}
+        bsreturn={'success':'true','maindata':orderdir}
     else:
         bsreturn={'success':'false','maindata':''}
     
@@ -169,5 +173,5 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         #self.wfile.write(content)            
  
 bk = BookMarket()           
-httpd = SocketServer.TCPServer(("127.0.0.1", 8080), ServerHandler) 
+httpd = SocketServer.TCPServer(("127.0.0.1", 3000), ServerHandler) 
 httpd.serve_forever() 
