@@ -15,8 +15,9 @@ export const store = new Vuex.Store({
   mutations: {
     // 改变属性的状态
     changeUserMessage (state, data) {
-      state.currentUser.phone = data.phone
-      state.currentUser.address = data.address
+      state.currentUser.email = data.email
+      state.currentUser.telephone = data.telephone
+      state.currentUser.imgUrl = data.imgUrl
     },
     setBookItems (state, data) {
       state.bookItems = data

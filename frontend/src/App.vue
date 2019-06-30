@@ -120,7 +120,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             if (response.data.success === true) {
-              this.$store.commit('setCurrentUser', response.data.maindata.username)
+              this.$store.commit('setCurrentUser', response.data.maindata)
               this.$store.commit('setToken', true)
               this.loginForm.successVisible = true
             } else {
