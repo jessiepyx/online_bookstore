@@ -85,10 +85,10 @@ export default {
       }
     },
     deleteBook (id) {
-      this.$axios.get('/server', {
+      this.$axios.get('/', {
         params: {
           'operation': 'viewcart',
-          'id': this.user.userid
+          'username': this.user.username
         }
       })
         .then((response) => {
@@ -113,9 +113,9 @@ export default {
       for (let i = 0; i < this.baskets.length; i++) {
         arr.push({cartid: this.baskets[i].cartid, number: this.baskets[i].number})
       }
-      this.$axios.post('/server', {
+      this.$axios.post('/', {
         operation: 'savecart',
-        id: this.user.userid,
+        username: this.user.username,
         items: arr
       })
         .then((response) => {
@@ -136,10 +136,10 @@ export default {
     },
     pay () {
       document.documentElement.scrollTop = 0
-      this.$axios.get('/server', {
+      this.$axios.get('/', {
         params: {
           'operation': 'viewcart',
-          'id': this.user.userid
+          'user': this.user.username
         }
       })
         .then((response) => {
@@ -165,10 +165,10 @@ export default {
     }
   },
   created () {
-    this.$axios.get('/server', {
+    this.$axios.get('/', {
       params: {
         'operation': 'viewcart',
-        'id': this.user.userid
+        'username': this.user.username
       }
     })
       .then((response) => {

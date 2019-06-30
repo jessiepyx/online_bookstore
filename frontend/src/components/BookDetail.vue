@@ -46,7 +46,7 @@ export default {
     }
   },
   created () {
-    this.$axios.get('/server', {
+    this.$axios.get('/', {
       params: {
         'operation': 'viewbook',
         'id': 'this.bookId'

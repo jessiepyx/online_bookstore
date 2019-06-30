@@ -63,10 +63,10 @@ export default {
       this.makeSure = true
     },
     pay () {
-      this.$axios.post('/server', {
+      this.$axios.post('/', {
         operation: 'addorder',
         id: this.book.id,
-        buy: this.currentUser.userid,
+        buy: this.currentUser.username,
         sell: this.book.bookStore,
         num: this.number,
         date: new Date().getTime()
