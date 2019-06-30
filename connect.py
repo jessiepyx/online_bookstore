@@ -1,15 +1,17 @@
-import BaseHTTPServer
+#encoding=utf-8
+#import BaseHTTPServer
 import SimpleHTTPServer
 import SocketServer
-import cgi
+import io
 import shutil
 import json
+import urllib
 from bookmarket import BookMarket
 def userReg(info):
     username=info['username']
     password=info['password']
     email=info['email']
-    name=info.getvalue('name']
+    name=info['name']
     telphone=info['telphone']
     reginfo=bk.createUser('username='+username+'&password='+password+'&email='+email+'&name='+name+'&telphone='+telphone)
     if reginfo==0:
@@ -89,7 +91,7 @@ def orderAdd(self,info):
     orderdes=info["destination"]
     ordersta=info["state"]
     orderinfo='id='+orderid+'&bookname='+orderbook+'&seil='+ordersel+'&seiltel='+orderseltel+'&buy='+orderbuy+'&buytel='+orderbuytel+'&num='+ordernum+'&price='+orderpri+'&destination='+orderdes+'&state='+ordersta
-    oraddinfo=bk.add_online_order(orderinf)
+    oraddinfo=bk.add_online_order(orderinfo)
     if oraddinfo==False:
         oraddreturn={'success':'false','maindata':'dataformerror'}
     else:
@@ -100,13 +102,13 @@ def orderAdd(self,info):
 def orderSearch(self,info):
     bookaccept=info['buy']
     bsinfo=bk.get_online_order(bookaccept)
-    if bainfo:
+    if bsinfo:
         allaccept=bsinfo.split('|')
         i=1
         orderdir={}
         for order in allaccept:
             orderinfo=order.split('&')
-            orderdir.update({i:{'id':orderinfo[0][3:],'bookname':orderinfo[1][9:],'sell':orderinfo[2][5:],'selltel':orderinfo[3][8:],'buy':orderinfo[4][4:],'buytel':orderinfo[5][7:],'num':bookinfo[6][4:],'price':bookinfo[7][6:],'destination':bookinfo[8][11:],'state':bookinfo[9][6:]}})
+            orderdir.update({i:{'id':orderinfo[0][3:],'bookname':orderinfo[1][9:],'sell':orderinfo[2][5:],'selltel':orderinfo[3][8:],'buy':orderinfo[4][4:],'buytel':orderinfo[5][7:],'num':orderinfo[6][4:],'price':orderinfo[7][6:],'destination':orderinfo[8][11:],'state':orderinfo[9][6:]}})
             i=i+1
         bsreturn={'success':'true','maindata':orderdir}
     else:
@@ -165,7 +167,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         elif operation=='updateoder':
             sendata=orderUpdate(args)
         self.outputtxt(sendata)
-            '''
+        '''
         dh = dataHandler()
         result = dh.run(path, sendata)
         self.outputtxt(result)
