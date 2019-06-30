@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     search () {
-      this.$axios.get('/server', {
+      this.$axios.get('', {
         params: {
           'operation': 'searchbook',
           'bookname': 'searchString'

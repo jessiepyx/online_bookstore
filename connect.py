@@ -1,3 +1,5 @@
+#encoding=utf-8
+import urllib
 import BaseHTTPServer
 import SimpleHTTPServer
 import SocketServer
@@ -26,7 +28,7 @@ def userReg(info):
         regreturn={'success':'false','maindata':'namerepeat'}
     else:
         regreturn={'success':'false','maindata':'emailrepeat'}
-        
+
     return json.dumps(regreturn)
 
 def userLogin(info):
@@ -37,9 +39,9 @@ def userLogin(info):
         logreturn={'success':'true','maindata':{'username':username,'password':password}}
     else:
         logreturn={'success':'false','maindata':'nameorpsw'}
-        
+
     return json.dumps(logreturn)
-            
+
 def bookSearch(info):
     bookname=info.getvalue('bookname')#需修改，可能不是书名
     bsinfo=bk.get_book_data('bookname='+bookname)
@@ -54,7 +56,7 @@ def bookSearch(info):
         bsreturn={'success':'true','maindata':bookdir}
     else:
         bsreturn={'success':'false','maindata':''}
-    
+
     return json.dumps(bsreturn,ensure_ascii=False)
 
 def bookAdd(self,info):
@@ -69,14 +71,14 @@ def bookAdd(self,info):
     bookima=info.getvalue("images")
     bookinf='id='+bookid+'&name='+bookname+'&seil='+booksel+'&beforeprice='+bookbp+'&nowprice='+booknp+'&category='+bookcate+'&storm='+booksto+'&images='+bookima+'&introduction='+bookintr
     boaddinfo=bk.add_book_data(bookinf)
-    
+
     if boaddinfo==True:
         boaddreturn={'success':'true','maindata':''}
     else:
         boaddreturn={'success':'false','maindata':'dataformerror'}
-        
+
     return json.dumps(boaddreturn)
-            
+
 def orderAdd(self,info):
     orderid=info.getvalue("id")
     orderbook=info.getvalue("bookname")
@@ -94,7 +96,7 @@ def orderAdd(self,info):
         oraddreturn={'success':'false','maindata':'dataformerror'}
     else:
         oraddreturn={'success':'true','maindata':''}
-        
+
     return json.dumps(oraddreturn)
 
 def orderSearch(self,info):
@@ -111,9 +113,9 @@ def orderSearch(self,info):
         bsreturn={'success':'true','maindata':orderdir}
     else:
         bsreturn={'success':'false','maindata':''}
-    
+
     return json.dumps(bsreturn,ensure_ascii=False)
-        
+
 
 def orderUpdate(self,info):
     orderid=info.getvalue('id')
@@ -125,23 +127,23 @@ def orderUpdate(self,info):
         orupreturn={'success':'true','maindata':''}
     return json.dumps(orupreturn)
 
-class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler): 
+class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_OPTIONS(self):
-        self.send_response(200)   
+        self.send_response(200)
         self.send_header("Access-Control-Allow-Origin","*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type")
-    def do_GET(self): 
+    def do_GET(self):
         mpath,margs=urllib.splitquery(self.path) # ?分割
         if margs==None:
             SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
         else:
-            self.do_action(mpath, margs) 
-    def do_POST(self): 
+            self.do_action(mpath, margs)
+    def do_POST(self):
         mpath,margs=urllib.splitquery(self.path)
         datas = cgi.FieldStorage(fp = self.rfile,headers = self.headers,environ = {'REQUEST_METHOD': 'POST'})
         self.do_action(mpath, datas)
-        
+
     def do_action(self, path, args):
         operation=args.getvalue('operation')
         if operation=='login':
@@ -161,22 +163,22 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         dh = dataHandler()
         result = dh.run(path, sendata)
         self.outputtxt(result)
-        
+
     def outputtxt(self, content):
         enc = "UTF-8"  #指定返回编码
-        content = content.encode(enc)               
+        content = content.encode(enc)
         f = io.BytesIO()
         f.write(content)
-        f.seek(0)  
-        self.send_response(200)  
+        f.seek(0)
+        self.send_response(200)
         self.send_header("Access-Control-Allow-Origin","*")
-        self.send_header("Content-type", "text/html; charset=%s" % enc)  
+        self.send_header("Content-type", "text/html; charset=%s" % enc)
         self.send_header("Content-Length", str(len(content)))
-        self.end_headers()  
+        self.end_headers()
         shutil.copyfileobj(f,self.wfile)
         f.close()
-        #self.wfile.write(content)            
- 
-bk = BookMarket()           
-httpd = SocketServer.TCPServer(("127.0.0.1", 3000), ServerHandler) 
-httpd.serve_forever() 
+        #self.wfile.write(content)
+
+bk = BookMarket()
+httpd = SocketServer.TCPServer(("127.0.0.1", 3000), ServerHandler)
+httpd.serve_forever()

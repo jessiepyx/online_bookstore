@@ -1,3 +1,4 @@
+#encoding=utf-8
 import pymysql
 import time
 '''这个程序执行模拟书店功能'''

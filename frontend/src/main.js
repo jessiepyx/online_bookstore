@@ -7,7 +7,7 @@ import router from './router'
 import {store} from './store'
 import './plugins/element.js'
 
-axios.defaults.baseURL = 'http://localhost:8080/online_bookstore'
+axios.defaults.baseURL = 'http://localhost:3000'
 Vue.prototype.$axios = axios
 
 router.beforeEach((to, from, next) => {

@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     onLogin () {
-      this.$axios.post('/server', {
+      this.$axios.post('', {
         operation: 'login',
         username: this.loginForm.username,
         password: this.loginForm.password
@@ -133,7 +133,7 @@ export default {
         })
     },
     onRegister () {
-      this.$axios.post('/server', {
+      this.$axios.post('', {
         operation: 'register',
         username: this.registerForm.username,
         password: this.registerForm.password,
