@@ -34,8 +34,30 @@ Contributed by Jessie.
 
 Contributed by ccty123
 
+- [x] createUser
+- [x] login
+- [x] add_book_data
+- [x] select_book_data
+- [x] get_book_data
+- [x] add_order_data
+- [x] update_order_state
+- [x] get_order_data
+
+### Environment
+
+- database: MySQL
+- language: Python 3.6
+
 ## Server-controller
 
 Contributed by SummerOfMe
 
+- [x] do_GET
+- [x] do_POST
+- [x] do_ACTION
+- [x] several db operations
 
+### Environment
+
+- server: SimpleHTTPServer
+- language: Python 3.6
