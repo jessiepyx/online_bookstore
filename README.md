@@ -17,12 +17,13 @@ Contributed by Jessie.
 - [x] login
 - [x] register
 - [x] search books
-- [x] book detail page
-- [x] order page
+- [x] view book details
+- [x] place order from book page
 - [x] shopping cart
 - [x] place order from shopping cart
-- [ ] profile
-- [ ] history
+- [x] view profile
+- [x] update profile
+- [x] view order history
 
 ### Environment
 
