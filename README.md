@@ -12,11 +12,14 @@ This is the course project of Software Engineering in Zhejiang University.
 
 Contributed by Jessie.
 
-- [x] mainpage UI
-- [x] login request
+- [x] mainpage navigation
 - [x] router interception
-- [ ] signin request
-- [ ] get book info request
+- [x] login
+- [x] register
+- [x] search books
+- [x] book details page
+- [ ] place orders
+- [ ] order details page
 
 ### Environment
 
