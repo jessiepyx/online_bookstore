@@ -11,7 +11,7 @@ axios.defaults.baseURL = 'http://localhost:3000'
 Vue.prototype.$axios = axios
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/') {
+  if (to.path === '/home') {
     next()
   } else if (window.sessionStorage.getItem('token') === true) {
     next()
