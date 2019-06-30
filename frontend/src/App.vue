@@ -122,10 +122,13 @@ export default {
             if (response.data.success === true) {
               this.$store.commit('setCurrentUser', response.data.maindata.username)
               this.$store.commit('setToken', true)
-              console.log(this.$store.state.currentUser)
+              this.loginForm.successVisible = true
             } else {
               alert(response.data.maindata)
+              this.loginForm.failVisible = true
             }
+          } else {
+            this.loginForm.failVisible = true
           }
         })
         .catch(err => {
@@ -137,15 +140,20 @@ export default {
         operation: 'register',
         username: this.registerForm.username,
         password: this.registerForm.password,
-        repeatPassword: this.repeatPassword,
-        email: this.email,
-        telephone: this.telephone
+        repeatPassword: this.registerForm.repeatPassword,
+        email: this.registerForm.email,
+        telephone: this.registerForm.telephone
       })
         .then((response) => {
           if (response.status === 200) {
-            if (response.data.success !== true) {
+            if (response.data.success === true) {
+              this.registerForm.successVisible = true
+            } else {
               alert(response.data.maindata)
+              this.registerForm.failVisible = true
             }
+          } else {
+            this.registerForm.failVisible = true
           }
         })
         .catch(err => {
