@@ -126,6 +126,11 @@ def orderUpdate(self,info):
     return json.dumps(orupreturn)
 
 class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler): 
+    def do_OPTIONS(self):
+        self.send_response(200)   
+        self.send_header("Access-Control-Allow-Origin","*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type")
     def do_GET(self): 
         mpath,margs=urllib.splitquery(self.path) # ?分割
         if margs==None:
@@ -164,9 +169,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         f.write(content)
         f.seek(0)  
         self.send_response(200)  
+        self.send_header("Access-Control-Allow-Origin","*")
         self.send_header("Content-type", "text/html; charset=%s" % enc)  
         self.send_header("Content-Length", str(len(content)))
-        self.send_header("Access-Control-Allow-Origin","*")
         self.end_headers()  
         shutil.copyfileobj(f,self.wfile)
         f.close()
