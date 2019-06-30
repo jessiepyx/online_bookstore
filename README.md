@@ -17,9 +17,12 @@ Contributed by Jessie.
 - [x] login
 - [x] register
 - [x] search books
-- [x] book details page
-- [ ] place orders
-- [ ] order details page
+- [x] book detail page
+- [x] order page
+- [x] shopping cart
+- [x] place order from shopping cart
+- [ ] profile
+- [ ] history
 
 ### Environment
 

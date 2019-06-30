@@ -3,7 +3,7 @@
     <ul>
       <li v-for="book in books" :key="book.id">
         <router-link :to="'/bookdetail/' + book.id">
-          <img class="bookImg" :src="book.imgUrl"/>
+          <img class="bookImg" :src="book.imgUrl" alt="book picture">
           <div>
             <p class="bookTitle" >{{book.title}}</p>
             <span class="money">￥{{book.price}}</span>

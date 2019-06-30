@@ -5,6 +5,7 @@ import Cart from '../components/Cart'
 import Profile from '../components/Profile'
 import History from '../components/History'
 import BookDetail from '../components/BookDetail'
+import Buy from '../components/Buy'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: 'bookdetail/:id',
       name: 'bookdetail',
       component: BookDetail
+    },
+    {
+      path: 'buy',
+      name: 'buy',
+      component: Buy
     }
   ]
 })
